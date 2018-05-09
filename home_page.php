@@ -12,6 +12,24 @@
 	<link rel="stylesheet" href="css/uniform.css" />
 	<link rel="stylesheet" href="css/all.css" />
 	<link media="screen" rel="stylesheet" type="text/css" href="css/screen.css" />
+
+	<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="Table/images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="Table/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="Table/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="Table/vendor/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="Table/vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="Table/vendor/perfect-scrollbar/perfect-scrollbar.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="Table/css/util.css">
+	<link rel="stylesheet" type="text/css" href="Table/css/main.css">
+<!--===============================================================================================-->
+
 	<!--[if lt IE 9]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
@@ -88,7 +106,7 @@
 						<th style="color:black; font-size: 150%">What are the Top 20 selling products at each store?</th>
 					</tr>
 				</table>
-					<div class="limiter">
+				<div class="limiter">
 					<div class="container-table100">
 						<div class="wrap-table100">
 							<div class="table100 ver1 m-b-110">
@@ -97,10 +115,7 @@
 										<thead>
 											<tr class="row100 head">
 												<th class="cell100 column1">Product Name</th>
-												<th class="cell100 column2">Type</th>
-												<th class="cell100 column3">Price</th>
-												<th class="cell100 column4">Brand</th>
-												<th class="cell100 column5">Desciption</th>
+												<th class="cell100 column2">Store ID</th>
 											</tr>
 										</thead>
 									</table>
@@ -133,7 +148,7 @@
 													$result = $conn-> query($sql);
 													while($row = $result->fetch_assoc())
 													{
-														echo "<tr><td>" . $row["productName"] . "</td><td>" . $row["store_ID"] . "</td></tr>"; 
+														echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["productName"] . "</td><td class=\"cell100 column2\">" . $row["store_ID"] . "</td></tr>"; 
 													}		
 													$conn-> close(); 
 												}
@@ -149,145 +164,243 @@
 						<tr>
 							<th style=color:black>What are the Top 20 selling products in each state??</th>
 						</tr>
-						<?php
-							$servername = "localhost";
-							$username = "root";
-							$password = "!RedBananas31";
-							$dbname = "projectcoffee";
-					
-							// Create connection
-							$conn = new mysqli($servername, $username, $password, $dbname);
-						
-							// Check connection
-							if ($conn->connect_error) 
-							{
-								die("Connection failed: " . $conn->connect_error);
-							}
-							else
-							{
-								$sql = "SELECT storeState as State, productName as Product
-								FROM sales INNER JOIN product ON sales.product_ID = product.ID
-										   INNER JOIN store   ON sales.store_ID = store.ID
-								WHERE amountSold > 0
-								ORDER BY store_ID;";
-
-									$result = $conn-> query($sql);
-									while($row = $result->fetch_assoc())
-									{
-										echo "<tr><td>" . $row["Product"] . "</td><td>" . $row["State"] . "</td></tr>"; 
-									}		
-								$conn-> close(); 
-							}
-						?>
 				</table>
+				<div class="limiter">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100 ver1 m-b-110">
+								<div class="table100-head">
+									<table>
+										<thead>
+											<tr class="row100 head">
+												<th class="cell100 column1">Product Name</th>
+												<th class="cell100 column2">State</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+			
+								<div class="table100-body js-pscroll">
+									<table>
+										<tbody>
+											<?php
+												$servername = "localhost";
+												$username = "root";
+												$password = "!RedBananas31";
+												$dbname = "projectcoffee";
+												
+												// Create connection
+												$conn = new mysqli($servername, $username, $password, $dbname);
+												
+												// Check connection
+												if ($conn->connect_error) 
+												{
+													die("Connection failed: " . $conn->connect_error);
+												}
+												else
+												{
+													$sql = "SELECT storeState as State, productName as Product
+															FROM sales INNER JOIN product ON sales.product_ID = product.ID
+															INNER JOIN store   ON sales.store_ID = store.ID
+															WHERE amountSold > 0
+															ORDER BY store_ID;";
+
+													$result = $conn-> query($sql);
+													while($row = $result->fetch_assoc())
+													{
+														echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["Product"] . "</td><td class=\"cell100 column2\">" . $row["State"] . "</td></tr>"; 
+													}		
+													$conn-> close(); 
+												}
+											?>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<table style="width:100%">
 						<tr>
 							<th style=color:black>What are the 5 stores with the most sales so far this year?</th>
 						</tr>
-						<?php
-							$servername = "localhost";
-							$username = "root";
-							$password = "!RedBananas31";
-							$dbname = "projectcoffee";
-					
-							// Create connection
-							$conn = new mysqli($servername, $username, $password, $dbname);
-						
-							// Check connection
-							if ($conn->connect_error) 
-							{
-								die("Connection failed: " . $conn->connect_error);
-							}
-							else
-							{
-								$sql = "SELECT storeName as StoreName, SUM(amountSold) as TotalUnitsSold
-								FROM store INNER JOIN sales ON store.ID = sales.store_ID
-								WHERE amountSold >0
-								GROUP BY store_ID
-								ORDER BY SUM(amountSold) DESC
-								LIMIT 5;";
-
-									$result = $conn-> query($sql);
-									while($row = $result->fetch_assoc())
-									{
-										echo "<tr><td>" . $row["StoreName"] . "</td><td>" . $row["TotalUnitsSold"] . "</td></tr>"; 
-									}		
-								$conn-> close(); 
-							}
-						?>
 				</table>
+				<div class="limiter">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100 ver1 m-b-110">
+								<div class="table100-head">
+									<table>
+										<thead>
+											<tr class="row100 head">
+												<th class="cell100 column1">Store Name</th>
+												<th class="cell100 column2">Total Units Sold</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+			
+								<div class="table100-body js-pscroll">
+									<table>
+										<tbody>
+											<?php
+												$servername = "localhost";
+												$username = "root";
+												$password = "!RedBananas31";
+												$dbname = "projectcoffee";
+					
+												// Create connection
+												$conn = new mysqli($servername, $username, $password, $dbname);
+						
+												// Check connection
+												if ($conn->connect_error) 
+												{
+													die("Connection failed: " . $conn->connect_error);
+												}
+												else
+												{
+													$sql = "SELECT storeName as StoreName, SUM(amountSold) as TotalUnitsSold
+															FROM store INNER JOIN sales ON store.ID = sales.store_ID
+															WHERE amountSold >0
+															GROUP BY store_ID
+															ORDER BY SUM(amountSold) DESC
+															LIMIT 5;";
+
+													$result = $conn-> query($sql);
+													while($row = $result->fetch_assoc())
+													{
+														echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["StoreName"] . "</td><td class=\"cell100 column1\">" . $row["TotalUnitsSold"] . "</td></tr>"; 
+													}		
+													$conn-> close(); 
+												}
+											?>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<table style="width:100%">
 						<tr>
 							<th style=color:black>In how many stores do Outdoor products outsell Livingroom products?</th>
 						</tr>
-						<?php
-							$servername = "localhost";
-							$username = "root";
-							$password = "!RedBananas31";
-							$dbname = "projectcoffee";
+				</table>		
+				<div class="limiter">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100 ver1 m-b-110">
+								<div class="table100-head">
+									<table>
+										<thead>
+											<tr class="row100 head">
+												<th class="cell100 column1">Store Name</th>
+												<th class="cell100 column2">Type</th>
+												<th class="cell100 column3">Units Sold</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+								<div class="table100-body js-pscroll">
+									<table>
+										<tbody>
+											<?php
+												$servername = "localhost";
+												$username = "root";
+												$password = "!RedBananas31";
+												$dbname = "projectcoffee";
+										
+												// Create connection
+												$conn = new mysqli($servername, $username, $password, $dbname);
+											
+												// Check connection
+												if ($conn->connect_error) 
+												{
+													die("Connection failed: " . $conn->connect_error);
+												}
+												else
+												{
+													$sql = "SELECT storeName as StoreName, productType as Type, MAX(amountSold) as Sold
+															FROM sales INNER JOIN product ON sales.product_ID = product.ID
+															  			 INNER JOIN store   ON sales.store_ID = store.ID
+															WHERE productType = \"Outdoor\" OR productType = \"Living Room\"
+															GROUP BY store.ID
+															ORDER BY productType;";
 					
-							// Create connection
-							$conn = new mysqli($servername, $username, $password, $dbname);
-						
-							// Check connection
-							if ($conn->connect_error) 
-							{
-								die("Connection failed: " . $conn->connect_error);
-							}
-							else
-							{
-								$sql = "SELECT storeName as StoreName, productType as Type, MAX(amountSold) as Sold
-								FROM sales INNER JOIN product ON sales.product_ID = product.ID
-										   INNER JOIN store   ON sales.store_ID = store.ID
-								WHERE productType = \"Outdoor\" OR productType = \"Living Room\"
-								GROUP BY store.ID
-								ORDER BY productType;";
-
-									$result = $conn-> query($sql);
-									while($row = $result->fetch_assoc())
-									{
-										echo "<tr><td>" . $row["StoreName"] . "</td><td>" . $row["Type"] . "</td><td>" . $row["Sold"] ."</td></tr>"; 
-									}		
-								$conn-> close(); 
-							}
-						?>
-				</table>
+														$result = $conn-> query($sql);
+														while($row = $result->fetch_assoc())
+														{
+															echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["StoreName"] . "</td><td class=\"cell100 column1\">" . $row["Type"] . "</td><td class=\"cell100 column1\">" . $row["Sold"] ."</td></tr>"; 
+														}		
+													$conn-> close(); 
+												}
+											?>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<table style="width:100%">
 						<tr>
-							<th style=color:black>What are the tope 3 types of products that customers buy alongside bedroom products?</th>
+							<th style=color:black>What are the top 3 types of products that customers buy alongside bedroom products?</th>
 						</tr>
-						<?php
-							$servername = "localhost";
-							$username = "root";
-							$password = "!RedBananas31";
-							$dbname = "projectcoffee";
-					
-							// Create connection
-							$conn = new mysqli($servername, $username, $password, $dbname);
-						
-							// Check connection
-							if ($conn->connect_error) 
-							{
-								die("Connection failed: " . $conn->connect_error);
-							}
-							else
-							{
-								$sql = "SELECT productType as Type
-								FROM product INNER JOIN sales ON product.ID = sales.product_ID
-								WHERE amountSold > 0 AND productType != \"Bedroom\"
-								GROUP BY productType
-								ORDER BY MAX(amountSold) DESC
-								LIMIT 3;";
-
-									$result = $conn-> query($sql);
-									while($row = $result->fetch_assoc())
-									{
-										echo "<tr><td>" . $row["Type"] . "</td></tr>"; 
-									}		
-								$conn-> close(); 
-							}
-						?>
 				</table>
+				<div class="limiter">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100 ver1 m-b-110">
+								<div class="table100-head">
+									<table>
+										<thead>
+											<tr class="row100 head">
+												<th class="cell100 column1">Type</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+								<div class="table100-body js-pscroll">
+									<table>
+										<tbody>
+											<?php
+												$servername = "localhost";
+												$username = "root";
+												$password = "!RedBananas31";
+												$dbname = "projectcoffee";
+										
+												// Create connection
+												$conn = new mysqli($servername, $username, $password, $dbname);
+											
+												// Check connection
+												if ($conn->connect_error) 
+												{
+													die("Connection failed: " . $conn->connect_error);
+												}
+												else
+												{
+													$sql = "SELECT productType as Type
+															FROM product INNER JOIN sales ON product.ID = sales.product_ID
+															WHERE amountSold > 0 AND productType != \"Bedroom\"
+															GROUP BY productType
+															ORDER BY MAX(amountSold) DESC
+															LIMIT 3;";
+					
+														$result = $conn-> query($sql);
+														while($row = $result->fetch_assoc())
+														{
+															echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["Type"] . "</td></tr>"; 
+														}		
+													$conn-> close(); 
+												}
+											?>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<!--<div class="boxes">
 					<div class="box">
 						<a href="#">
@@ -392,6 +505,30 @@
 		</footer>	
 	</div>
 	
+	
+<!--===============================================================================================-->	
+<script src="Table/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="Table/vendor/bootstrap/js/popper.js"></script>
+	<script src="Table/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="Table/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="Table/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+	<script>
+		$('.js-pscroll').each(function(){
+			var ps = new PerfectScrollbar(this);
+
+			$(window).on('resize', function(){
+				ps.update();
+			})
+		});
+			
+		
+	</script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+
 	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="js/jquery.bxslider.min.js"></script>
 	<script type="text/javascript" src="js/jquery.placeholder.js"></script>
