@@ -84,39 +84,67 @@
 			</section>
 			<section id="main">
 				<table style="width:100%">
-						<tr>
-							<th style="color:black; font-size: 150%">What are the Top 20 selling products at each store?</th>
-						</tr>
-						<?php
-							$servername = "localhost";
-							$username = "root";
-							$password = "!RedBananas31";
-							$dbname = "projectcoffee";					
-							// Create connection
-			
-							$conn = new mysqli($servername, $username, $password, $dbname);
-						
-							// Check connection
-							if ($conn->connect_error) 
-							{
-								die("Connection failed: " . $conn->connect_error);
-							}
-							else
-							{
-								$sql = "SELECT store_ID, productName
-										FROM product INNER JOIN sales ON product.ID = sales.product_ID
-										WHERE amountSold >0
-										ORDER BY store_ID;";
-
-									$result = $conn-> query($sql);
-									while($row = $result->fetch_assoc())
-									{
-										echo "<tr><td>" . $row["productName"] . "</td><td>" . $row["store_ID"] . "</td></tr>"; 
-									}		
-								$conn-> close(); 
-							}
-						?>
+					<tr>
+						<th style="color:black; font-size: 150%">What are the Top 20 selling products at each store?</th>
+					</tr>
 				</table>
+					<div class="limiter">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100 ver1 m-b-110">
+								<div class="table100-head">
+									<table>
+										<thead>
+											<tr class="row100 head">
+												<th class="cell100 column1">Product Name</th>
+												<th class="cell100 column2">Type</th>
+												<th class="cell100 column3">Price</th>
+												<th class="cell100 column4">Brand</th>
+												<th class="cell100 column5">Desciption</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+			
+								<div class="table100-body js-pscroll">
+									<table>
+										<tbody>
+											<?php
+												$servername = "localhost";
+												$username = "root";
+												$password = "!RedBananas31";
+												$dbname = "projectcoffee";					
+												// Create connection
+
+												$conn = new mysqli($servername, $username, $password, $dbname);
+
+												// Check connection
+												if ($conn->connect_error) 
+												{
+													die("Connection failed: " . $conn->connect_error);
+												}
+												else
+												{
+													$sql = "SELECT store_ID, productName
+													FROM product INNER JOIN sales ON product.ID = sales.product_ID
+													WHERE amountSold >0
+													ORDER BY store_ID;";
+
+													$result = $conn-> query($sql);
+													while($row = $result->fetch_assoc())
+													{
+														echo "<tr><td>" . $row["productName"] . "</td><td>" . $row["store_ID"] . "</td></tr>"; 
+													}		
+													$conn-> close(); 
+												}
+											?>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>				
 				<table style="width:100%">
 						<tr>
 							<th style=color:black>What are the Top 20 selling products in each state??</th>
