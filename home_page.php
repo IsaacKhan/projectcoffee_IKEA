@@ -239,8 +239,8 @@
 										<thead>
 											<tr class="row100 head">
 												<th class="cell100 column1">Store Name</th>
-												<th class="cell100 column2">Total Units Sold</th>
-												<th class="cell100 column2">Product Type</th>
+												<th class="cell100 column2">Store Number</th>
+												<th class="cell100 column2">Sales</th>
 											</tr>
 										</thead>
 									</table>
@@ -261,7 +261,7 @@
 												{
 													while($row = $result->fetch_assoc())
 													{
-														echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["StoreName"] . "</td><td class=\"cell100 column2\">" . $row["TotalUnitsSold"] . "</td><td class=\"class100 column3\">" . $row["Type"] . "</td></tr>"; 
+														echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["Store"] . "</td><td class=\"cell100 column2\">" . $row["Store Number"] . "</td><td class=\"class100 column3\">" . $row["Sales"] . "</td></tr>"; 
 													}		
 													$conn-> close(); 
 												}
