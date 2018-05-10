@@ -183,9 +183,9 @@
 									<table>
 										<tbody>
 											<?php
-												$servername = "localhost";
+												$servername = "coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com";
 												$username = "root";
-												$password = "!RedBananas31";
+												$password = "csc4112018";
 												$dbname = "projectcoffee";
 												
 												// Create connection
@@ -243,9 +243,9 @@
 									<table>
 										<tbody>
 											<?php
-												$servername = "localhost";
+												$servername = "coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com";
 												$username = "root";
-												$password = "!RedBananas31";
+												$password = "csc4112018";
 												$dbname = "projectcoffee";
 					
 												// Create connection
@@ -304,9 +304,9 @@
 									<table>
 										<tbody>
 											<?php
-												$servername = "localhost";
+												$servername = "coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com";
 												$username = "root";
-												$password = "!RedBananas31";
+												$password = "csc4112018";
 												$dbname = "projectcoffee";
 										
 												// Create connection
@@ -363,9 +363,9 @@
 									<table>
 										<tbody>
 											<?php
-												$servername = "localhost";
+												$servername = "coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com";
 												$username = "root";
-												$password = "!RedBananas31";
+												$password = "csc4112018";
 												$dbname = "projectcoffee";
 										
 												// Create connection
