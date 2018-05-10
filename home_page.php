@@ -151,6 +151,10 @@
 													}		
 													$conn-> close(); 
 												}
+												else
+												{
+													echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . "There is no Data Found";
+												}
 											?>
 										</tbody>
 									</table>
@@ -161,7 +165,7 @@
 				</div>				
 				<table style="width:100%">
 						<tr>
-							<th style=color:black>What are the Top 20 selling products in each state??</th>
+							<th style="color:black; font-size: 150%">What are the Top 20 selling products in each state??</th>
 						</tr>
 				</table>
 				<div class="limiter">
@@ -172,8 +176,10 @@
 									<table>
 										<thead>
 											<tr class="row100 head">
-												<th class="cell100 column1">Product Name</th>
-												<th class="cell100 column2">State</th>
+												<th class="cell100 column1">Rank</th>
+												<th class="cell100 column2">Product</th>
+												<th class="cell100 column3">Units Sold</th>
+												<th class="cell100 column4">State</th>
 											</tr>
 										</thead>
 									</table>
@@ -183,33 +189,33 @@
 									<table>
 										<tbody>
 											<?php
-												$servername = "coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com";
-												$username = "root";
-												$password = "csc4112018";
-												$dbname = "projectcoffee";
-												
-												// Create connection
-												$conn = new mysqli($servername, $username, $password, $dbname);
-												
-												// Check connection
-												if ($conn->connect_error) 
+												$mysqli = new mysqli("coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com", "root", "csc4112018", "projectcoffee");
+												$result = $mysqli->query("	SELECT Rank, productName AS Product, units AS 'Units Sold', storeState AS State
+																			FROM (	SELECT product_ID AS upc, amountSold AS units_sold, store_ID, storeState,
+																					-- Leveraged mysql session variables to track ranking 
+																					-- If the storeStae is = to the previous one than increase the rank, otherwise start back at 1
+																					@cur_rank := IF(@cur_state = storeState, @cur_rank + 1, 1) AS Rank, 
+																					@cur_state := storeState,
+																					@units := amountSold AS units
+																					-- In order to get the correct ranking order a Subquery that orders by State and amount sold in descending order is needed
+																					FROM  (	SELECT product_ID, amountSold, store_ID, storeState
+																							FROM sales INNER JOIN store ON store.ID = sales.store_ID
+																							ORDER BY storeState, amountSold DESC)
+																					AS top_items) 
+																			AS rankings INNER JOIN product ON upc = product.ID
+																			-- Cap the ranking at the top 20 items
+																			WHERE rank <= 20;");
+												if ($result->num_rows > 0) 
 												{
-													die("Connection failed: " . $conn->connect_error);
+													while($row = $result->fetch_assoc())
+													{
+														echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["Rank"] . "</td><td class=\"cell100 column3\">" . $row["Product"] . "</td><td class=\"cell100 column3\">" . $row["Units Sold"] . "</td><td class=\"cell100 column4\">" . $row["Store"] . "</td></tr>"; 
+													}		
+													$conn-> close(); 
 												}
 												else
 												{
-													$sql = "SELECT storeState as State, productName as Product
-															FROM sales INNER JOIN product ON sales.product_ID = product.ID
-															INNER JOIN store   ON sales.store_ID = store.ID
-															WHERE amountSold > 0
-															ORDER BY store_ID;";
-
-													$result = $conn-> query($sql);
-													while($row = $result->fetch_assoc())
-													{
-														echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["Product"] . "</td><td class=\"cell100 column2\">" . $row["State"] . "</td></tr>"; 
-													}		
-													$conn-> close(); 
+													echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . "There is no Data Found";
 												}
 											?>
 										</tbody>
@@ -221,7 +227,7 @@
 				</div>
 				<table style="width:100%">
 						<tr>
-							<th style=color:black>What are the 5 stores with the most sales so far this year?</th>
+							<th style="color:black; font-size: 150%">What are the 5 stores with the most sales so far this year?</th>
 						</tr>
 				</table>
 				<div class="limiter">
@@ -234,6 +240,7 @@
 											<tr class="row100 head">
 												<th class="cell100 column1">Store Name</th>
 												<th class="cell100 column2">Total Units Sold</th>
+												<th class="cell100 column2">Product Type</th>
 											</tr>
 										</thead>
 									</table>
@@ -258,7 +265,7 @@
 												}
 												else
 												{
-													$sql = "SELECT storeName as StoreName, SUM(amountSold) as TotalUnitsSold
+													$sql = "SELECT storeName as StoreName, SUM(amountSold) as TotalUnitsSold, productType as Type
 															FROM store INNER JOIN sales ON store.ID = sales.store_ID
 															WHERE amountSold >0
 															GROUP BY store_ID
@@ -268,7 +275,7 @@
 													$result = $conn-> query($sql);
 													while($row = $result->fetch_assoc())
 													{
-														echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["StoreName"] . "</td><td class=\"cell100 column1\">" . $row["TotalUnitsSold"] . "</td></tr>"; 
+														echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["StoreName"] . "</td><td class=\"cell100 column2\">" . $row["TotalUnitsSold"] . "</td><td class=\"class100 column3\">" . $row["Type"] . "</td></tr>"; 
 													}		
 													$conn-> close(); 
 												}
@@ -282,7 +289,7 @@
 				</div>
 				<table style="width:100%">
 						<tr>
-							<th style=color:black>In how many stores do Outdoor products outsell Livingroom products?</th>
+							<th style="color:black; font-size: 150%">In how many stores do Outdoor products outsell Livingroom products?</th>
 						</tr>
 				</table>		
 				<div class="limiter">
@@ -343,7 +350,7 @@
 				</div>
 				<table style="width:100%">
 						<tr>
-							<th style=color:black>What are the top 3 types of products that customers buy alongside bedroom products?</th>
+							<th style="color:black; font-size: 150%">What are the top 3 types of products that customers buy alongside bedroom products?</th>
 						</tr>
 				</table>
 				<div class="limiter">
