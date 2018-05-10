@@ -71,7 +71,7 @@
 							</div>
 						</div>
 					</li>
-					<li style="background: url(images/outdoor_splash.jpg) no-repeat 50% 50%;">
+					<!--<li style="background: url(images/outdoor_splash.jpg) no-repeat 50% 50%;">
 						<div class="slide-holder">
 							<div class="slide-info">
 								<h1 style="background-color: black">Outdoor Decor</h1>
@@ -98,7 +98,7 @@
 							</div>
 						</div>
 					</li>
-				</ul>
+				</ul>-->
 			</section>
 			<section id="main">
 				<table style="width:100%">
@@ -162,7 +162,7 @@
 				</div>				
 				<table style="width:100%">
 						<tr>
-							<th style=color:black>What are the Top 20 selling products in each state??</th>
+							<th style="color:black; font-size: 150%">What are the Top 20 selling products in each state??</th>
 						</tr>
 				</table>
 				<div class="limiter">
@@ -184,9 +184,9 @@
 									<table>
 										<tbody>
 											<?php
-												$servername = "localhost";
+												$servername = "coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com";
 												$username = "root";
-												$password = "!RedBananas31";
+												$password = "csc4112018";
 												$dbname = "projectcoffee";
 												
 												// Create connection
@@ -222,7 +222,7 @@
 				</div>
 				<table style="width:100%">
 						<tr>
-							<th style=color:black>What are the 5 stores with the most sales so far this year?</th>
+							<th style="color:black; font-size: 150%">What are the 5 stores with the most sales so far this year?</th>
 						</tr>
 				</table>
 				<div class="limiter">
@@ -244,9 +244,9 @@
 									<table>
 										<tbody>
 											<?php
-												$servername = "localhost";
+												$servername = "coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com";
 												$username = "root";
-												$password = "!RedBananas31";
+												$password = "csc4112018";
 												$dbname = "projectcoffee";
 					
 												// Create connection
@@ -283,7 +283,7 @@
 				</div>
 				<table style="width:100%">
 						<tr>
-							<th style=color:black>In how many stores do Outdoor products outsell Livingroom products?</th>
+							<th style="color:black; font-size: 150%">In how many stores do Outdoor products outsell Livingroom products?</th>
 						</tr>
 				</table>		
 				<div class="limiter">
@@ -305,9 +305,9 @@
 									<table>
 										<tbody>
 											<?php
-												$servername = "localhost";
+												$servername = "coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com";
 												$username = "root";
-												$password = "!RedBananas31";
+												$password = "csc4112018";
 												$dbname = "projectcoffee";
 										
 												// Create connection
@@ -344,7 +344,7 @@
 				</div>
 				<table style="width:100%">
 						<tr>
-							<th style=color:black>What are the top 3 types of products that customers buy alongside bedroom products?</th>
+							<th style="color:black; font-size: 150%">What are the top 3 types of products that customers buy alongside bedroom products?</th>
 						</tr>
 				</table>
 				<div class="limiter">
@@ -364,9 +364,9 @@
 									<table>
 										<tbody>
 											<?php
-												$servername = "localhost";
+												$servername = "coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com";
 												$username = "root";
-												$password = "!RedBananas31";
+												$password = "csc4112018";
 												$dbname = "projectcoffee";
 										
 												// Create connection
