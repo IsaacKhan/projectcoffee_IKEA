@@ -209,7 +209,7 @@
 												{
 													while($row = $result->fetch_assoc())
 													{
-														echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["Rank"] . "</td><td class=\"cell100 column3\">" . $row["Product"] . "</td><td class=\"cell100 column3\">" . $row["Units Sold"] . "</td><td class=\"cell100 column4\">" . $row["Store"] . "</td></tr>"; 
+														echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["Rank"] . "</td><td class=\"cell100 column3\">" . $row["Product"] . "</td><td class=\"cell100 column3\">" . $row["Units Sold"] . "</td><td class=\"cell100 column4\">" . $row["State"] . "</td></tr>"; 
 													}		
 													$conn-> close(); 
 												}
@@ -251,12 +251,12 @@
 										<tbody>
 											<?php
 												$mysqli = new mysqli("coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com", "root", "csc4112018", "projectcoffee");
-												$result = $mysqli->query("	SELECT storeName as StoreName, SUM(amountSold) as TotalUnitsSold, productType as Type
-																			FROM store INNER JOIN sales ON store.ID = sales.store_ID
-																			WHERE amountSold >0
-																			GROUP BY store_ID
-																			ORDER BY SUM(amountSold) DESC
-																			LIMIT 5;");
+												$result = $mysqli->query("SELECT storeName AS 'Store', store_ID AS 'Store Number', MAX(amountSold) as 'Sales'
+																		FROM store INNER JOIN sales ON store.ID = sales.store_ID
+																		WHERE amountSold > 0
+																		GROUP BY store_ID
+																		ORDER BY MAX(amountSold) DESC
+																		LIMIT 5; ");
 												if ($result->num_rows > 0) 
 												{
 													while($row = $result->fetch_assoc())
