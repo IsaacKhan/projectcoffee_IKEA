@@ -71,7 +71,7 @@
 							</div>
 						</div>
 					</li>
-					<!--<li style="background: url(images/outdoor_splash.jpg) no-repeat 50% 50%;">
+					<!----><li style="background: url(images/outdoor_splash.jpg) no-repeat 50% 50%;">
 						<div class="slide-holder">
 							<div class="slide-info">
 								<h1 style="background-color: black">Outdoor Decor</h1>
@@ -173,8 +173,10 @@
 									<table>
 										<thead>
 											<tr class="row100 head">
-												<th class="cell100 column1">Product Name</th>
-												<th class="cell100 column2">State</th>
+												<th class="cell100 column1">Rank</th>
+												<th class="cell100 column2">Product Name</th>
+												<th class="cell100 column3">Units Sold</th>
+												<th class="cell100 column4">Store</th>
 											</tr>
 										</thead>
 									</table>
@@ -184,31 +186,28 @@
 									<table>
 										<tbody>
 											<?php
-												$servername = "coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com";
-												$username = "root";
-												$password = "csc4112018";
-												$dbname = "projectcoffee";
-												
-												// Create connection
-												$conn = new mysqli($servername, $username, $password, $dbname);
-												
-												// Check connection
-												if ($conn->connect_error) 
+												$conn = new mysqli("coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com", "root", "csc4112018", "projectcoffee");
+												$result = $conn->query("SELECT Rank, productName AS Product, units AS 'Units Sold', storeName AS Store
+																			FROM (SELECT product_ID AS upc, amountSold AS units_sold, store_ID, storeName,
+																				-- Leveraged mysql session variables to track ranking 
+																			   	-- If the store_ID is = to the previous one than increase the rank, otherwise start back at 1
+																			  @cur_rank := IF(@store = store_ID, @cur_rank + 1, 1) AS Rank, 
+																			  @store := store_ID,
+																			  @units := amountSold AS units
+																			-- In order to get the correct ranking order a Subquery of each stores products sales in descending order is needed
+																					FROM  (SELECT product_ID, amountSold, store_ID, storeName
+																							FROM sales INNER JOIN store on store.ID = sales.store_ID
+																							ORDER BY store_ID, amountSold desc) 
+																					AS top_items) 
+																			AS rankings INNER JOIN product ON upc = product.ID
+																			-- Cap the ranking at the top 20 items
+																			WHERE rank <= 20 ");
+																								
+												if ($result->num_rows > 0) 
 												{
-													die("Connection failed: " . $conn->connect_error);
-												}
-												else
-												{
-													$sql = "SELECT storeState as State, productName as Product
-															FROM sales INNER JOIN product ON sales.product_ID = product.ID
-															INNER JOIN store   ON sales.store_ID = store.ID
-															WHERE amountSold > 0
-															ORDER BY store_ID;";
-
-													$result = $conn-> query($sql);
 													while($row = $result->fetch_assoc())
 													{
-														echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["Product"] . "</td><td class=\"cell100 column2\">" . $row["State"] . "</td></tr>"; 
+														echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["Rank"] . "</td><td class=\"cell100 column3\">" . $row["Product"] . "</td><td class=\"cell100 column3\">" . $row["Units Sold"] . "</td><td class=\"cell100 column4\">" . $row["Store"] . "</td></tr>"; 
 													}		
 													$conn-> close(); 
 												}
