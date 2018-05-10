@@ -97,7 +97,7 @@
 								<a class="btn white big" href="products_all.php">Begin the Journey</a>
 							</div>
 						</div>
-					</li>-->
+					</li>
 				</ul>
 			</section>
 			<section id="main">
@@ -125,9 +125,9 @@
 									<table>
 										<tbody>
 											<?php
-												$servername = "coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com";
+												$servername = "localhost";
 												$username = "root";
-												$password = "!csc4112018";
+												$password = "!RedBananas31";
 												$dbname = "projectcoffee";					
 												// Create connection
 
@@ -140,19 +140,10 @@
 												}
 												else
 												{
-													$sql = "SELECT Rank, productName AS Product, units AS 'Units Sold', storeName AS Store
-													FROM (SELECT product_ID AS upc, amountSold AS units_sold, store_ID, storeName,
-															-- Leveraged mysql session variables to track ranking 
-															-- If the store_ID is = to the previous one than increase the rank, otherwise start back at 1
-															  @cur_rank := IF(@store = store_ID, @cur_rank + 1, 1) AS Rank, 
-															  @store := store_ID,
-															  @units := amountSold AS units
-																-- In order to get the correct ranking order a Subquery of each stores products sales in descending order is needed
-																FROM  (SELECT product_ID, amountSold, store_ID, storeName
-																			FROM sales INNER JOIN store on store.ID = sales.store_ID
-																			ORDER BY store_ID, amountSold desc) AS top_items) AS rankings INNER JOIN product ON upc = product.ID
-															-- Cap the ranking at the top 20 items
-															WHERE rank <= 20 ";
+													$sql = "SELECT store_ID, productName
+													FROM product INNER JOIN sales ON product.ID = sales.product_ID
+													WHERE amountSold >0
+													ORDER BY store_ID;";
 
 													$result = $conn-> query($sql);
 													while($row = $result->fetch_assoc())
