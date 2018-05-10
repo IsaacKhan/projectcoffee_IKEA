@@ -71,7 +71,7 @@
 							</div>
 						</div>
 					</li>
-					<!--<li style="background: url(images/outdoor_splash.jpg) no-repeat 50% 50%;">
+					<li style="background: url(images/outdoor_splash.jpg) no-repeat 50% 50%;">
 						<div class="slide-holder">
 							<div class="slide-info">
 								<h1 style="background-color: black">Outdoor Decor</h1>
