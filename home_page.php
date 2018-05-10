@@ -301,12 +301,13 @@
 									<table>
 										<tbody>
 											<?php
-												$mysqli = new mysqli("	SELECT storeName as StoreName, productType as Type, MAX(amountSold) as Sold
-																		FROM sales 	INNER JOIN product ON sales.product_ID = product.ID
-																					INNER JOIN store   ON sales.store_ID = store.ID
-																		WHERE productType = \"Outdoor\" OR productType = \"Living Room\"
-																		GROUP BY store.ID
-																		ORDER BY productType;");
+												$mysqli = new mysqli("coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com", "root", "csc4112018", "projectcoffee");
+												$result = $mysqli->query("	SELECT storeName as StoreName, productType as Type, MAX(amountSold) as Sold
+																			FROM sales 	INNER JOIN product ON sales.product_ID = product.ID
+																						INNER JOIN store   ON sales.store_ID = store.ID
+																			WHERE productType = \"Outdoor\" OR productType = \"Living Room\"
+																			GROUP BY store.ID
+																			ORDER BY productType;");
 												if ($result->num_rows > 0) 
 												{
 													while($row = $result->fetch_assoc())
@@ -349,12 +350,13 @@
 									<table>
 										<tbody>
 											<?php
-											$mysqli = new mysqli("	SELECT productType as Type
-																	FROM product INNER JOIN sales ON product.ID = sales.product_ID
-																	WHERE amountSold > 0 AND productType != \"Bedroom\"
-																	GROUP BY productType
-																	ORDER BY MAX(amountSold) DESC
-																	LIMIT 9;");
+												$mysqli = new mysqli("coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com", "root", "csc4112018", "projectcoffee");
+												$result = $mysqli->query("	SELECT productType as Type
+																			FROM product INNER JOIN sales ON product.ID = sales.product_ID
+																			WHERE amountSold > 0 AND productType != \"Bedroom\"
+																			GROUP BY productType
+																			ORDER BY MAX(amountSold) DESC
+																			LIMIT 9;");
 												if ($result->num_rows > 0) 
 												{	
 													while($row = $result->fetch_assoc())
