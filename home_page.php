@@ -250,34 +250,24 @@
 									<table>
 										<tbody>
 											<?php
-												$servername = "coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com";
-												$username = "root";
-												$password = "csc4112018";
-												$dbname = "projectcoffee";
-					
-												// Create connection
-												$conn = new mysqli($servername, $username, $password, $dbname);
-						
-												// Check connection
-												if ($conn->connect_error) 
+												$mysqli = new mysqli("coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com", "root", "csc4112018", "projectcoffee");
+												$result = $mysqli->query("	SELECT storeName as StoreName, SUM(amountSold) as TotalUnitsSold, productType as Type
+																			FROM store INNER JOIN sales ON store.ID = sales.store_ID
+																			WHERE amountSold >0
+																			GROUP BY store_ID
+																			ORDER BY SUM(amountSold) DESC
+																			LIMIT 5;");
+												if ($result->num_rows > 0) 
 												{
-													die("Connection failed: " . $conn->connect_error);
-												}
-												else
-												{
-													$sql = "SELECT storeName as StoreName, SUM(amountSold) as TotalUnitsSold, productType as Type
-															FROM store INNER JOIN sales ON store.ID = sales.store_ID
-															WHERE amountSold >0
-															GROUP BY store_ID
-															ORDER BY SUM(amountSold) DESC
-															LIMIT 5;";
-
-													$result = $conn-> query($sql);
 													while($row = $result->fetch_assoc())
 													{
 														echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["StoreName"] . "</td><td class=\"cell100 column2\">" . $row["TotalUnitsSold"] . "</td><td class=\"class100 column3\">" . $row["Type"] . "</td></tr>"; 
 													}		
 													$conn-> close(); 
+												}
+												else
+												{
+													echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . "There is no Data Found";
 												}
 											?>
 										</tbody>
@@ -311,34 +301,23 @@
 									<table>
 										<tbody>
 											<?php
-												$servername = "coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com";
-												$username = "root";
-												$password = "csc4112018";
-												$dbname = "projectcoffee";
-										
-												// Create connection
-												$conn = new mysqli($servername, $username, $password, $dbname);
-											
-												// Check connection
-												if ($conn->connect_error) 
+												$mysqli = new mysqli("	SELECT storeName as StoreName, productType as Type, MAX(amountSold) as Sold
+																		FROM sales 	INNER JOIN product ON sales.product_ID = product.ID
+																					INNER JOIN store   ON sales.store_ID = store.ID
+																		WHERE productType = \"Outdoor\" OR productType = \"Living Room\"
+																		GROUP BY store.ID
+																		ORDER BY productType;");
+												if ($result->num_rows > 0) 
 												{
-													die("Connection failed: " . $conn->connect_error);
+													while($row = $result->fetch_assoc())
+													{
+														echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["StoreName"] . "</td><td class=\"cell100 column1\">" . $row["Type"] . "</td><td class=\"cell100 column1\">" . $row["Sold"] ."</td></tr>"; 
+													}		
+													$conn-> close(); 
 												}
 												else
 												{
-													$sql = "SELECT storeName as StoreName, productType as Type, MAX(amountSold) as Sold
-															FROM sales INNER JOIN product ON sales.product_ID = product.ID
-															  			 INNER JOIN store   ON sales.store_ID = store.ID
-															WHERE productType = \"Outdoor\" OR productType = \"Living Room\"
-															GROUP BY store.ID
-															ORDER BY productType;";
-					
-														$result = $conn-> query($sql);
-														while($row = $result->fetch_assoc())
-														{
-															echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["StoreName"] . "</td><td class=\"cell100 column1\">" . $row["Type"] . "</td><td class=\"cell100 column1\">" . $row["Sold"] ."</td></tr>"; 
-														}		
-													$conn-> close(); 
+													echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . "There is no Data Found";
 												}
 											?>
 										</tbody>
@@ -370,34 +349,23 @@
 									<table>
 										<tbody>
 											<?php
-												$servername = "coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com";
-												$username = "root";
-												$password = "csc4112018";
-												$dbname = "projectcoffee";
-										
-												// Create connection
-												$conn = new mysqli($servername, $username, $password, $dbname);
-											
-												// Check connection
-												if ($conn->connect_error) 
-												{
-													die("Connection failed: " . $conn->connect_error);
+											$mysqli = new mysqli("	SELECT productType as Type
+																	FROM product INNER JOIN sales ON product.ID = sales.product_ID
+																	WHERE amountSold > 0 AND productType != \"Bedroom\"
+																	GROUP BY productType
+																	ORDER BY MAX(amountSold) DESC
+																	LIMIT 9;");
+												if ($result->num_rows > 0) 
+												{	
+													while($row = $result->fetch_assoc())
+													{
+														echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["Type"] . "</td></tr>"; 
+													}			
+													$conn-> close(); 
 												}
 												else
 												{
-													$sql = "SELECT productType as Type
-															FROM product INNER JOIN sales ON product.ID = sales.product_ID
-															WHERE amountSold > 0 AND productType != \"Bedroom\"
-															GROUP BY productType
-															ORDER BY MAX(amountSold) DESC
-															LIMIT 3;";
-					
-														$result = $conn-> query($sql);
-														while($row = $result->fetch_assoc())
-														{
-															echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["Type"] . "</td></tr>"; 
-														}		
-													$conn-> close(); 
+													echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . "There is no Data Found";
 												}
 											?>
 										</tbody>
