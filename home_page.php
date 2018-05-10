@@ -103,7 +103,7 @@
 			<section id="main">
 				<table style="width:100%">
 					<tr>
-						<th style="color:black; font-size: 150%">What are the Top 20 selling products at each store?</th>
+						<th style="color:black; font-size: 150%">What are the 20 top-selling products at each store?</th>
 					</tr>
 				</table>
 				<div class="limiter">
@@ -165,7 +165,7 @@
 				</div>				
 				<table style="width:100%">
 						<tr>
-							<th style="color:black; font-size: 150%">What are the Top 20 selling products in each state??</th>
+							<th style="color:black; font-size: 150%">What are the 20 top-selling products in each state?</th>
 						</tr>
 				</table>
 				<div class="limiter">
@@ -279,7 +279,7 @@
 				</div>
 				<table style="width:100%">
 						<tr>
-							<th style="color:black; font-size: 150%">In how many stores do Outdoor products outsell Livingroom products?</th>
+							<th style="color:black; font-size: 150%">In  how  many  stores  does  Coke  outsell  Pepsi?  (Or,  a  similarquery  for  enterprises  that don’t sell soda.)</th>
 						</tr>
 				</table>		
 				<div class="limiter">
@@ -330,7 +330,7 @@
 				</div>
 				<table style="width:100%">
 						<tr>
-							<th style="color:black; font-size: 150%">What are the top 3 types of products that customers buy alongside bedroom products?</th>
+							<th style="color:black; font-size: 150%">What are the top 3 types of product that customers buy in addition to milk? (Or similar question for nonfood enterprises.)</th>
 						</tr>
 				</table>
 				<div class="limiter">
@@ -353,10 +353,10 @@
 												$mysqli = new mysqli("coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com", "root", "csc4112018", "projectcoffee");
 												$result = $mysqli->query("	SELECT productType as Type
 																			FROM product INNER JOIN sales ON product.ID = sales.product_ID
-																			WHERE amountSold > 0 AND productType != \"Bedroom\"
+																			WHERE productType != \"Bedroom\"
 																			GROUP BY productType
 																			ORDER BY MAX(amountSold) DESC
-																			LIMIT 9;");
+																			LIMIT 3;");
 												if ($result->num_rows > 0) 
 												{	
 													while($row = $result->fetch_assoc())
