@@ -71,7 +71,7 @@
 							</div>
 						</div>
 					</li>
-					<!----><li style="background: url(images/outdoor_splash.jpg) no-repeat 50% 50%;">
+					<li style="background: url(images/outdoor_splash.jpg) no-repeat 50% 50%;">
 						<div class="slide-holder">
 							<div class="slide-info">
 								<h1 style="background-color: black">Outdoor Decor</h1>
@@ -98,72 +98,13 @@
 							</div>
 						</div>
 					</li>
-				</ul>-->
+				</ul>
 			</section>
 			<section id="main">
 				<table style="width:100%">
 					<tr>
 						<th style="color:black; font-size: 150%">What are the Top 20 selling products at each store?</th>
 					</tr>
-				</table>
-				<div class="limiter">
-					<div class="container-table100">
-						<div class="wrap-table100">
-							<div class="table100 ver1 m-b-110">
-								<div class="table100-head">
-									<table>
-										<thead>
-											<tr class="row100 head">
-												<th class="cell100 column1">Product Name</th>
-												<th class="cell100 column2">Store ID</th>
-											</tr>
-										</thead>
-									</table>
-								</div>
-			
-								<div class="table100-body js-pscroll">
-									<table>
-										<tbody>
-											<?php
-												$servername = "coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com";
-												$username = "root";
-												$password = "csc4112018";
-												$dbname = "projectcoffee";					
-												// Create connection
-
-												$conn = new mysqli($servername, $username, $password, $dbname);
-
-												// Check connection
-												if ($conn->connect_error) 
-												{
-													die("Connection failed: " . $conn->connect_error);
-												}
-												else
-												{
-													$sql = "SELECT store_ID, productName
-													FROM product INNER JOIN sales ON product.ID = sales.product_ID
-													WHERE amountSold >0
-													ORDER BY store_ID;";
-
-													$result = $conn-> query($sql);
-													while($row = $result->fetch_assoc())
-													{
-														echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["productName"] . "</td><td class=\"cell100 column2\">" . $row["store_ID"] . "</td></tr>"; 
-													}		
-													$conn-> close(); 
-												}
-											?>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>				
-				<table style="width:100%">
-						<tr>
-							<th style="color:black; font-size: 150%">What are the Top 20 selling products in each state??</th>
-						</tr>
 				</table>
 				<div class="limiter">
 					<div class="container-table100">
@@ -185,24 +126,23 @@
 								<div class="table100-body js-pscroll">
 									<table>
 										<tbody>
-											<?php
+											<?php										
 												$conn = new mysqli("coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com", "root", "csc4112018", "projectcoffee");
 												$result = $conn->query("SELECT Rank, productName AS Product, units AS 'Units Sold', storeName AS Store
-																			FROM (SELECT product_ID AS upc, amountSold AS units_sold, store_ID, storeName,
+																		FROM (	SELECT product_ID AS upc, amountSold AS units_sold, store_ID, storeName,
 																				-- Leveraged mysql session variables to track ranking 
-																			   	-- If the store_ID is = to the previous one than increase the rank, otherwise start back at 1
-																			  @cur_rank := IF(@store = store_ID, @cur_rank + 1, 1) AS Rank, 
-																			  @store := store_ID,
-																			  @units := amountSold AS units
-																			-- In order to get the correct ranking order a Subquery of each stores products sales in descending order is needed
-																					FROM  (SELECT product_ID, amountSold, store_ID, storeName
-																							FROM sales INNER JOIN store on store.ID = sales.store_ID
-																							ORDER BY store_ID, amountSold desc) 
-																					AS top_items) 
-																			AS rankings INNER JOIN product ON upc = product.ID
-																			-- Cap the ranking at the top 20 items
-																			WHERE rank <= 20 ");
-																								
+       																			-- If the store_ID is = to the previous one than increase the rank, otherwise start back at 1
+          																		@cur_rank := IF(@store = store_ID, @cur_rank + 1, 1) AS Rank, 
+          																		@store := store_ID,
+          																		@units := amountSold AS units
+																				-- In order to get the correct ranking order a Subquery of each stores products sales in descending order is needed
+            																	FROM  (SELECT product_ID, amountSold, store_ID, storeName
+																						FROM sales INNER JOIN store on store.ID = sales.store_ID
+                        																ORDER BY store_ID, amountSold desc) 
+																				AS top_items) 
+																		AS rankings INNER JOIN product ON upc = product.ID
+        																-- Cap the ranking at the top 20 items
+																		WHERE rank <= 20 ");
 												if ($result->num_rows > 0) 
 												{
 													while($row = $result->fetch_assoc())
@@ -218,10 +158,70 @@
 							</div>
 						</div>
 					</div>
+				</div>				
+				<table style="width:100%">
+						<tr>
+							<th style=color:black>What are the Top 20 selling products in each state??</th>
+						</tr>
+				</table>
+				<div class="limiter">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100 ver1 m-b-110">
+								<div class="table100-head">
+									<table>
+										<thead>
+											<tr class="row100 head">
+												<th class="cell100 column1">Product Name</th>
+												<th class="cell100 column2">State</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+			
+								<div class="table100-body js-pscroll">
+									<table>
+										<tbody>
+											<?php
+												$servername = "localhost";
+												$username = "root";
+												$password = "!RedBananas31";
+												$dbname = "projectcoffee";
+												
+												// Create connection
+												$conn = new mysqli($servername, $username, $password, $dbname);
+												
+												// Check connection
+												if ($conn->connect_error) 
+												{
+													die("Connection failed: " . $conn->connect_error);
+												}
+												else
+												{
+													$sql = "SELECT storeState as State, productName as Product
+															FROM sales INNER JOIN product ON sales.product_ID = product.ID
+															INNER JOIN store   ON sales.store_ID = store.ID
+															WHERE amountSold > 0
+															ORDER BY store_ID;";
+
+													$result = $conn-> query($sql);
+													while($row = $result->fetch_assoc())
+													{
+														echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["Product"] . "</td><td class=\"cell100 column2\">" . $row["State"] . "</td></tr>"; 
+													}		
+													$conn-> close(); 
+												}
+											?>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<table style="width:100%">
 						<tr>
-							<th style="color:black; font-size: 150%">What are the 5 stores with the most sales so far this year?</th>
+							<th style=color:black>What are the 5 stores with the most sales so far this year?</th>
 						</tr>
 				</table>
 				<div class="limiter">
@@ -243,9 +243,9 @@
 									<table>
 										<tbody>
 											<?php
-												$servername = "coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com";
+												$servername = "localhost";
 												$username = "root";
-												$password = "csc4112018";
+												$password = "!RedBananas31";
 												$dbname = "projectcoffee";
 					
 												// Create connection
@@ -282,7 +282,7 @@
 				</div>
 				<table style="width:100%">
 						<tr>
-							<th style="color:black; font-size: 150%">In how many stores do Outdoor products outsell Livingroom products?</th>
+							<th style=color:black>In how many stores do Outdoor products outsell Livingroom products?</th>
 						</tr>
 				</table>		
 				<div class="limiter">
@@ -304,9 +304,9 @@
 									<table>
 										<tbody>
 											<?php
-												$servername = "coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com";
+												$servername = "localhost";
 												$username = "root";
-												$password = "csc4112018";
+												$password = "!RedBananas31";
 												$dbname = "projectcoffee";
 										
 												// Create connection
@@ -343,7 +343,7 @@
 				</div>
 				<table style="width:100%">
 						<tr>
-							<th style="color:black; font-size: 150%">What are the top 3 types of products that customers buy alongside bedroom products?</th>
+							<th style=color:black>What are the top 3 types of products that customers buy alongside bedroom products?</th>
 						</tr>
 				</table>
 				<div class="limiter">
@@ -363,9 +363,9 @@
 									<table>
 										<tbody>
 											<?php
-												$servername = "coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com";
+												$servername = "localhost";
 												$username = "root";
-												$password = "csc4112018";
+												$password = "!RedBananas31";
 												$dbname = "projectcoffee";
 										
 												// Create connection
