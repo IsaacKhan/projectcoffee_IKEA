@@ -162,7 +162,7 @@
 															$rank = 1;
 														}
 
-													echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $rank . "</td><td class=\"cell100 column3\">" . $row["Product"] . "</td><td class=\"cell100 column3\">" . $row["Units Sold"] . "</td><td class=\"cell100 column4\">" . $row["State"] . "</td></tr>"; 
+													echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $rank . "</td><td class=\"cell100 column3\">" . $row["Product"] . "</td><td class=\"cell100 column3\">" . $row["Units Sold"] . "</td><td class=\"cell100 column4\">" . $row["Store"] . "</td></tr>"; 
 													# INSERT YOUR ECHO STATEMENT HERE
 													$prev_store = $row["store_ID"];
 												}
