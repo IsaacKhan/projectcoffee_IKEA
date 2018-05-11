@@ -156,13 +156,13 @@
 													else 
 														{
 															echo "<br>";
-															echo "Top 20 for ". $row["Store"]. " ". $row["store_ID"];
+															echo "<tr class =\"row100 head\"><td colspan=42>" . "Top 20 for ". $row["Store"] . " " . $row["store_ID"] . "</td></tr>";
 															echo "<br>";
 
 															$rank = 1;
 														}
 
-														echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["Rank"] . "</td><td class=\"cell100 column3\">" . $row["Product"] . "</td><td class=\"cell100 column3\">" . $row["Units Sold"] . "</td><td class=\"cell100 column4\">" . $row["Store"] . "</td></tr>"; 
+													echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["Rank"] . "</td><td class=\"cell100 column3\">" . $row["Product"] . "</td><td class=\"cell100 column3\">" . $row["Units Sold"] . "</td><td class=\"cell100 column4\">" . $row["Store"] . "</td></tr>"; 
 													# INSERT YOUR ECHO STATEMENT HERE
 													$prev_store = $row["store_ID"];
 												}
