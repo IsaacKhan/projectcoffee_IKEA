@@ -38,7 +38,7 @@
 	<div id="wrapper">
 		<div class="wrapper-holder">
 			<header id="header">
-				<span class="logo"><a href="home_page.php">IKEA</a></span>
+				<!--<span class="logo"><a href="home_page.php">IKEA</a></span>-->
 				<ul class="tools-nav tools-nav-mobile">
 					<li class="items"><a href="cart.html"><span>0</span> Items, <strong>$0.00</strong></a></li>
 					<li class="login"><a href="#">Login</a> / <a href="#">register</a></li>
@@ -97,7 +97,7 @@
 										
 												$sql = "SELECT productName, productType, productPrice, productBrand, productDescription FROM product";
 												$result = $conn-> query($sql);
-												echo "<table>";
+												//echo "<table>";
 
 												if ($result->num_rows > 0) 
 												{
@@ -105,7 +105,7 @@
 													{
 														echo "<tr class=\"cell100 column5\"><td class=\"cell100 column1\">" . $row["productName"] . "</td><td class=\"cell100 column2\">" . $row["productType"] . "</td><td class=\"cell100 column3\">" . $row["productPrice"] . "</td><td class=\"cell100 column4\">" . $row["productBrand"] . "</td><td class=\"cell100 column5\">" . $row["productDescription"] . "</td></tr>"; 
 													}	
-													echo "</table>"	
+													//echo "</table>"	
 													$conn-> close(); 
 												}
 												else

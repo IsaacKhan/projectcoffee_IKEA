@@ -38,7 +38,7 @@
 	<div id="wrapper">
 		<div class="wrapper-holder">
 			<header id="header">
-				<span class="logo"><a href="home_page.php">IKEA</a></span>
+				<!--<span class="logo"><a href="home_page.php">IKEA</a></span>-->
 				<ul class="tools-nav tools-nav-mobile">
 					<li class="items"><a href="cart.html"><span>0</span> Items, <strong>$0.00</strong></a></li>
 					<li class="login"><a href="#">Login</a> / <a href="#">register</a></li>
