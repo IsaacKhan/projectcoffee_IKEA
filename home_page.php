@@ -155,9 +155,9 @@
 															$rank++;
 													else 
 														{
-															echo "<br>";
-															echo "<tr class =\"row100 head\"><td colspan=42>" . "Top 20 for ". $row["Store"] . " " . $row["store_ID"] . "</td></tr>";
-															echo "<br>";
+															#echo "<br>";
+															echo "<tr class =\"row100 head\"><td colspan=5>" . "Top 20 for ". $row["Store"] . " " . $row["store_ID"] . "</td></tr>";
+															#echo "<br>";
 
 															$rank = 1;
 														}
