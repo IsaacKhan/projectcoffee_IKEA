@@ -102,14 +102,13 @@
 												{
 													while($row = $result->fetch_assoc())
 													{
-														echo "<tr class=\"cell100 column5\"><td class=\"cell100 column1\">" . $row["productName"] . "</td><td class=\"cell100 column2\">" . $row["productType"] . "</td><td class=\"cell100 column3\">" . $row["productPrice"] . "</td><td class=\"cell100 column4\">" . $row["productBrand"] . "</td><td class=\"cell100 column5\">" . $row["productDescription"] . "</td></tr>"; 
+														echo "<tr class=\"cell100 head\"><td class=\"cell100 column1\">" . $row["productName"] . "</td><td class=\"cell100 column2\">" . $row["productType"] . "</td><td class=\"cell100 column3\">" . $row["productPrice"] . "</td><td class=\"cell100 column4\">" . $row["productBrand"] . "</td><td class=\"cell100 column5\">" . $row["productDescription"] . "</td></tr>"; 
 													}	
 													$conn-> close(); 
 												}
 												else
 												{
 													echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . "There is no Data Found";
-												}
 												}
 											?>
 										</tbody>
