@@ -93,31 +93,22 @@
 									<table>
 										<tbody>
 												<?php
-												$servername = "localhost";
-												$username = "root";
-												$password = "!RedBananas31";
-												$dbname = "projectcoffee";
+												$conn = new mysqli("coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com", "root", "csc4112018", "projectcoffee");
 										
-												// Create connection
-												$conn = new mysqli($servername, $username, $password, $dbname);
-											
-												// Check connection
-												if ($conn->connect_error) 
+												$sql = "SELECT productName, productType, productPrice, productBrand, productDescription FROM product WHERE productType=\"Outdoor\"";
+												$result = $conn-> query($sql);
+
+												if ($result->num_rows > 0) 
 												{
-													die("Connection failed: " . $conn->connect_error);
+													while($row = $result->fetch_assoc())
+													{
+														echo "<tr class=\"cell100 column5\"><td class=\"cell100 column1\">" . $row["productName"] . "</td><td class=\"cell100 column2\">" . $row["productType"] . "</td><td class=\"cell100 column3\">" . $row["productPrice"] . "</td><td class=\"cell100 column4\">" . $row["productBrand"] . "</td><td class=\"cell100 column5\">" . $row["productDescription"] . "</td></tr>"; 
+													}	
+													$conn-> close(); 
 												}
 												else
 												{
-													$sql = "SELECT productName, productType, productPrice, productBrand, productDescription FROM product WHERE productType=\"Outdoor\"";
-													$result = $conn-> query($sql);
-													echo "<table>";
-														while($row = $result->fetch_assoc())
-														{
-															echo "<tr class=\"cell100 column5\"><td class=\"cell100 column1\">" . $row["productName"] . "</td><td class=\"cell100 column2\">" . $row["productType"] . "</td><td class=\"cell100 column3\">" . $row["productPrice"] . "</td><td class=\"cell100 column4\">" . $row["productBrand"] . "</td><td class=\"cell100 column5\">" . $row["productDescription"] . "</td></tr>"; 
-														}
-													echo "</table>";
-							
-													$conn-> close(); 
+													echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . "There is no Data Found";
 												}
 											?>
 										</tbody>
