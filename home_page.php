@@ -261,7 +261,7 @@
 													if ($rank <= 20)
 										
 													# INSERT YOUR ECHO HERE
-													echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["Rank"] . "</td><td class=\"cell100 column3\">" . $row["Product"] . "</td><td class=\"cell100 column3\">" . $row["Units Sold"] . "</td><td class=\"cell100 column4\">" . $row["State"] . "</td></tr>"; 
+													echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $rank . "</td><td class=\"cell100 column3\">" . $row["Product"] . "</td><td class=\"cell100 column3\">" . $row["Units Sold"] . "</td><td class=\"cell100 column4\">" . $row["State"] . "</td></tr>"; 
 													$prev_state = $row["State"];
 												}
 												
