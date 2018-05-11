@@ -162,7 +162,7 @@
 															$rank = 1;
 														}
 
-													echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["Rank"] . "</td><td class=\"cell100 column3\">" . $row["Product"] . "</td><td class=\"cell100 column3\">" . $row["Units Sold"] . "</td><td class=\"cell100 column4\">" . $row["Store"] . "</td></tr>"; 
+													echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $rank . "</td><td class=\"cell100 column3\">" . $row["Product"] . "</td><td class=\"cell100 column3\">" . $row["Units Sold"] . "</td><td class=\"cell100 column4\">" . $row["State"] . "</td></tr>"; 
 													# INSERT YOUR ECHO STATEMENT HERE
 													$prev_store = $row["store_ID"];
 												}
@@ -228,34 +228,71 @@
 									<table>
 										<tbody>
 											<?php
-												$mysqli = new mysqli("coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com", "root", "csc4112018", "projectcoffee");
-												$result = $mysqli->query("	SELECT Rank, productName AS Product, units AS 'Units Sold', storeState AS State
-																			FROM (	SELECT product_ID AS upc, amountSold AS units_sold, store_ID, storeState,
-																					-- Leveraged mysql session variables to track ranking 
-																					-- If the storeStae is = to the previous one than increase the rank, otherwise start back at 1
-																					@cur_rank := IF(@cur_state = storeState, @cur_rank + 1, 1) AS Rank, 
-																					@cur_state := storeState,
-																					@units := amountSold AS units
-																					-- In order to get the correct ranking order a Subquery that orders by State and amount sold in descending order is needed
-																					FROM  (	SELECT product_ID, amountSold, store_ID, storeState
-																							FROM sales INNER JOIN store ON store.ID = sales.store_ID
-																							ORDER BY storeState, amountSold DESC)
-																					AS top_items) 
-																			AS rankings INNER JOIN product ON upc = product.ID
-																			-- Cap the ranking at the top 20 items
-																			WHERE rank <= 20;");
-												if ($result->num_rows > 0) 
+												$result = $conn->query("SELECT @cur_rank, productName as Product, units as 'Units Sold', storeState as State, store_ID as Store
+												from (SELECT product_ID as upc, amountSold as units_sold, store_ID, storeState,  @cur_rank := IF(@cur_state = storeState, @cur_rank + 1, 1) , 
+													  @cur_state := storeState,@units := amountSold as units
+													  from  (    select product_ID, amountSold, store_ID, storeState
+																	from sales inner join store on store.ID = sales.store_ID
+																	order by storeState, amountSold desc) as top_items) as rankings inner join product on upc = product.ID  where @cur_rank <= 20");
+										
+												//-- Cap the ranking at the top 20 items
+										
+												$prev_state = "";
+												$prev_prod = "";
+												$rank = 1;
+										
+												// $result = $conn-> query($sql);
+												while($row = $result->fetch_assoc())
 												{
-													while($row = $result->fetch_assoc())
-													{
-														echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["Rank"] . "</td><td class=\"cell100 column3\">" . $row["Product"] . "</td><td class=\"cell100 column3\">" . $row["Units Sold"] . "</td><td class=\"cell100 column4\">" . $row["State"] . "</td></tr>"; 
-													}		
-													$conn-> close(); 
+													if ($prev_state == $row["State"])
+														{
+															$rank++;
+										
+														}
+													else 
+														{
+															#echo "<br>";
+															echo "<tr class =\"row100 head\"><td colspan=5>" . "Top 20 for ". $row["State"] . "</td></tr>";
+															#echo "<br>";
+										
+															$rank = 1;
+														}
+										
+													if ($rank <= 20)
+										
+													# INSERT YOUR ECHO HERE
+													echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["Rank"] . "</td><td class=\"cell100 column3\">" . $row["Product"] . "</td><td class=\"cell100 column3\">" . $row["Units Sold"] . "</td><td class=\"cell100 column4\">" . $row["State"] . "</td></tr>"; 
+													$prev_state = $row["State"];
 												}
-												else
-												{
-													echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . "There is no Data Found";
-												}
+												
+												#$mysqli = new mysqli("coffee-gave-me-gas.cgzqmhf3sjbn.us-east-2.rds.amazonaws.com", "root", "csc4112018", "projectcoffee");
+												#$result = $mysqli->query("	SELECT Rank, productName AS Product, units AS 'Units Sold', storeState AS State
+												#							FROM (	SELECT product_ID AS upc, amountSold AS units_sold, store_ID, storeState,
+												#									-- Leveraged mysql session variables to track ranking 
+												#									-- If the storeStae is = to the previous one than increase the rank, otherwise start back at 1
+												#									@cur_rank := IF(@cur_state = storeState, @cur_rank + 1, 1) AS Rank, 
+												#									@cur_state := storeState,
+												#									@units := amountSold AS units
+												#									-- In order to get the correct ranking order a Subquery that orders by State and amount sold in descending order is needed
+												#									FROM  (	SELECT product_ID, amountSold, store_ID, storeState
+												#											FROM sales INNER JOIN store ON store.ID = sales.store_ID
+												#											ORDER BY storeState, amountSold DESC)
+												#									AS top_items) 
+												#							AS rankings INNER JOIN product ON upc = product.ID
+												#							-- Cap the ranking at the top 20 items
+												#							WHERE rank <= 20;");
+												#if ($result->num_rows > 0) 
+												#{
+												#	while($row = $result->fetch_assoc())
+												#	{
+												#		echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . $row["Rank"] . "</td><td class=\"cell100 column3\">" . $row["Product"] . "</td><td class=\"cell100 column3\">" . $row["Units Sold"] . "</td><td class=\"cell100 column4\">" . $row["State"] . "</td></tr>"; 
+												#	}		
+												#	$conn-> close(); 
+												#}
+												#else
+												#{
+												#	echo "<tr class=\"row100 head\"><td class=\"cell100 column1\">" . "There is no Data Found";
+												#}
 											?>
 										</tbody>
 									</table>
